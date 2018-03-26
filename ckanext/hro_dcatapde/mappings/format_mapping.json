@@ -1,0 +1,641 @@
+{
+    "ARC": {
+        "label": "ARC", 
+        "media_type": "application/octet-stream", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ARC"
+    }, 
+    "ARC_GZ": {
+        "label": "ARC GZ", 
+        "media_type": "application/gzip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ARC_GZ"
+    }, 
+    "ATOM": {
+        "label": "Atom Feed", 
+        "media_type": "application/atom+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ATOM"
+    }, 
+    "AZW": {
+        "label": "Amazon Kindle eBook", 
+        "media_type": "application/vnd.amazon.ebook", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/AZW"
+    }, 
+    "BIN": {
+        "label": "Binary Data", 
+        "media_type": "application/octet-stream", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/BIN"
+    }, 
+    "BMP": {
+        "label": "Bitmap Image File", 
+        "media_type": "image/x-ms-bmp", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/BMP"
+    }, 
+    "BWF": {
+        "label": "BWF", 
+        "media_type": "audio/vnd.wave", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/BWF"
+    }, 
+    "CSS": {
+        "label": "CSS", 
+        "media_type": "text/css", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/CSS"
+    }, 
+    "CSV": {
+        "label": "CSV", 
+        "media_type": "text/csv", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/CSV"
+    }, 
+    "DBF": {
+        "label": "DBF", 
+        "media_type": "application/x-dbase", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DBF"
+    }, 
+    "DCR": {
+        "label": "DCR File", 
+        "media_type": "application/x-director", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DCR"
+    }, 
+    "DMP": {
+        "label": "Oracle Dump", 
+        "media_type": "application/x-oracledump", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DMP"
+    }, 
+    "DOC": {
+        "label": "Word DOC", 
+        "media_type": "application/msword", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DOC"
+    }, 
+    "DOCX": {
+        "label": "Word DOCX", 
+        "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DOCX"
+    }, 
+    "DTD_SGML": {
+        "label": "SGML DTD", 
+        "media_type": "application/sgml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DTD_SGML"
+    }, 
+    "DTD_XML": {
+        "label": "XML DTD", 
+        "media_type": "application/xml-dtd", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/DTD_XML"
+    }, 
+    "E00": {
+        "label": "E00", 
+        "media_type": "application/x-e00", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/E00"
+    }, 
+    "ECW": {
+        "label": "ECW", 
+        "media_type": "application/x-ecw", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ECW"
+    }, 
+    "EPS": {
+        "label": "Encapsulated Postscript", 
+        "media_type": "application/postscript", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/EPS"
+    }, 
+    "EPUB": {
+        "label": "EPUB", 
+        "media_type": "application/epub+zip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/EPUB"
+    }, 
+    "FMX2": {
+        "label": "Formex 2", 
+        "media_type": "text/sgml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/FMX2"
+    }, 
+    "FMX3": {
+        "label": "Formex 3", 
+        "media_type": "text/sgml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/FMX3"
+    }, 
+    "FMX4": {
+        "label": "Formex 4", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/FMX4"
+    }, 
+    "GDB": {
+        "label": "Esri File Geodatabase", 
+        "media_type": "application/x-filegdb", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GDB"
+    }, 
+    "GEOJSON": {
+        "label": "GeoJSON", 
+        "media_type": "application/geo+json", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GEOJSON"
+    }, 
+    "GIF": {
+        "label": "GIF", 
+        "media_type": "image/gif", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GIF"
+    }, 
+    "GML": {
+        "label": "GML", 
+        "media_type": "application/gml+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GML"
+    }, 
+    "GMZ": {
+        "label": "Zipped GML", 
+        "media_type": "application/x-gmz", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GMZ"
+    }, 
+    "GRID": {
+        "label": "Esri binary grid", 
+        "media_type": "application/x-grid", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GRID"
+    }, 
+    "GRID_ASCII": {
+        "label": "Esri ASCII grid", 
+        "media_type": "application/x-ascii-grid", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GRID_ASCII"
+    }, 
+    "GZIP": {
+        "label": "GNU zip", 
+        "media_type": "application/x-gzip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/GZIP"
+    }, 
+    "HDF": {
+        "label": "HDF", 
+        "media_type": "application/x-hdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/HDF"
+    }, 
+    "HTML": {
+        "label": "HTML", 
+        "media_type": "text/html", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/HTML"
+    }, 
+    "HTML_SIMPL": {
+        "label": "HTML simplified", 
+        "media_type": "text/html", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/HTML_SIMPL"
+    }, 
+    "INDD": {
+        "label": "INDD", 
+        "media_type": "application/x-indesign", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/INDD"
+    }, 
+    "JPEG": {
+        "label": "JPEG", 
+        "media_type": "image/jpeg", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/JPEG"
+    }, 
+    "JPEG2000": {
+        "label": "JPEG 2000", 
+        "media_type": "image/jp2", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/JPEG2000"
+    }, 
+    "JSON": {
+        "label": "JSON", 
+        "media_type": "application/json", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/JSON"
+    }, 
+    "JSON_LD": {
+        "label": "JSON-LD", 
+        "media_type": "application/ld+json", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/JSON_LD"
+    }, 
+    "KML": {
+        "label": "KML", 
+        "media_type": "application/vnd.google-earth.kml+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/KML"
+    }, 
+    "KMZ": {
+        "label": "KMZ", 
+        "media_type": "application/vnd.google-earth.kmz", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/KMZ"
+    }, 
+    "LAS": {
+        "label": "LASer file", 
+        "media_type": "application/x-las", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/LAS"
+    }, 
+    "LAZ": {
+        "label": "Compressed LAS file", 
+        "media_type": "application/x-laz", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/LAZ"
+    }, 
+    "MAP_PRVW": {
+        "label": "ArcGIS Map Preview", 
+        "media_type": "arcgis_map_preview", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MAP_PRVW"
+    }, 
+    "MAP_SRVC": {
+        "label": "ArcGIS Map Service", 
+        "media_type": "arcgis_map_service", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MAP_SRVC"
+    }, 
+    "MBOX": {
+        "label": "MBOX", 
+        "media_type": "application/mbox", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MBOX"
+    }, 
+    "MDB": {
+        "label": "MDB", 
+        "media_type": "application/x-msaccess", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MDB"
+    }, 
+    "METS": {
+        "label": "METS XML", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/METS"
+    }, 
+    "METS_ZIP": {
+        "label": "METS package", 
+        "media_type": "application/zip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/METS_ZIP"
+    }, 
+    "MHTML": {
+        "label": "MHTML", 
+        "media_type": "message/html", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MHTML"
+    }, 
+    "MOBI": {
+        "label": "Mobipocket eBook", 
+        "media_type": "application/x-mobipocket-ebook", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MOBI"
+    }, 
+    "MOP": {
+        "label": "MOP", 
+        "media_type": "chemical/x-mopac-input", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MOP"
+    }, 
+    "MPEG2": {
+        "label": "MPEG-2", 
+        "media_type": "video/mpeg", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MPEG2"
+    }, 
+    "MPEG4": {
+        "label": "MPEG-4", 
+        "media_type": "video/mp4", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MPEG4"
+    }, 
+    "MPEG4_AVC": {
+        "label": "MPEG-4 AVC", 
+        "media_type": "video/mp4", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MPEG4_AVC"
+    }, 
+    "MSG_HTTP": {
+        "label": "HTTP Message", 
+        "media_type": "message/http", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MSG_HTTP"
+    }, 
+    "MXD": {
+        "label": "MXD", 
+        "media_type": "application/x-mxd", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/MXD"
+    }, 
+    "NETCDF": {
+        "label": "NetCDF", 
+        "media_type": "application/x-netcdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/NETCDF"
+    }, 
+    "OCTET": {
+        "label": "Octet Stream", 
+        "media_type": "application/octet-stream", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/OCTET"
+    }, 
+    "ODB": {
+        "label": "OpenDocument Database", 
+        "media_type": "application/vnd.oasis.opendocument.database", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODB"
+    }, 
+    "ODC": {
+        "label": "OpenDocument Chart", 
+        "media_type": "application/vnd.oasis.opendocument.chart", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODC"
+    }, 
+    "ODF": {
+        "label": "ODF", 
+        "media_type": "application/octet-stream", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODF"
+    }, 
+    "ODG": {
+        "label": "OpenDocument Image", 
+        "media_type": "application/vnd.oasis.opendocument.graphics", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODG"
+    }, 
+    "ODS": {
+        "label": "ODS", 
+        "media_type": "application/vnd.oasis.opendocument.spreadsheet", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODS"
+    }, 
+    "ODT": {
+        "label": "ODT", 
+        "media_type": "application/vnd.oasis.opendocument.text", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ODT"
+    }, 
+    "OVF": {
+        "label": "OVF", 
+        "media_type": "application/ovf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/OVF"
+    }, 
+    "OWL": {
+        "label": "OWL", 
+        "media_type": "application/owl+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/OWL"
+    }, 
+    "PDF": {
+        "label": "PDF", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDF"
+    }, 
+    "PDF1X": {
+        "label": "PDF1X", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDF1X"
+    }, 
+    "PDFA1A": {
+        "label": "PDF/A-1a", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFA1A"
+    }, 
+    "PDFA1B": {
+        "label": "PDF/A-1b", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFA1B"
+    }, 
+    "PDFA2A": {
+        "label": "PDF/A-2a", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFA2A"
+    }, 
+    "PDFA2B": {
+        "label": "PDF/A-2b", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFA2B"
+    }, 
+    "PDFA3": {
+        "label": "PDFA-3", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFA3"
+    }, 
+    "PDFX": {
+        "label": "PDF/X", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFX"
+    }, 
+    "PDFX1A": {
+        "label": "PDF/X-1a", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFX1A"
+    }, 
+    "PDFX2A": {
+        "label": "PDF/X-2a", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFX2A"
+    }, 
+    "PDFX4": {
+        "label": "PDF/X-4", 
+        "media_type": "application/pdf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PDFX4"
+    }, 
+    "PNG": {
+        "label": "PNG", 
+        "media_type": "image/png", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PNG"
+    }, 
+    "PPS": {
+        "label": "PowerPoint Slide Show", 
+        "media_type": "application/vnd.ms-powerpoint", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PPS"
+    }, 
+    "PPSX": {
+        "label": "PowerPoint PPSX", 
+        "media_type": "application/vnd.openxmlformats-officedocument.presentationml.slideshow", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PPSX"
+    }, 
+    "PPT": {
+        "label": "PowerPoint PPT", 
+        "media_type": "application/vnd.ms-powerpoint", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PPT"
+    }, 
+    "PPTX": {
+        "label": "PowerPoint PPTX", 
+        "media_type": "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PPTX"
+    }, 
+    "PS": {
+        "label": "PS", 
+        "media_type": "application/postscript", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PS"
+    }, 
+    "PSD": {
+        "label": "PSD", 
+        "media_type": "application/x-photoshop", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/PSD"
+    }, 
+    "RDF": {
+        "label": "RDF", 
+        "media_type": "application/rdf+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF"
+    }, 
+    "RDFA": {
+        "label": "RDFa", 
+        "media_type": "application/rdfa", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDFA"
+    }, 
+    "RDF_N_QUADS": {
+        "label": "RDF N-Quads", 
+        "media_type": "application/n-quads", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF_N_QUADS"
+    }, 
+    "RDF_N_TRIPLES": {
+        "label": "RDF N-Triples", 
+        "media_type": "application/n-triples", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF_N_TRIPLES"
+    }, 
+    "RDF_TRIG": {
+        "label": "RDF TriG", 
+        "media_type": "application/trig", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF_TRIG"
+    }, 
+    "RDF_TURTLE": {
+        "label": "RDF Turtle", 
+        "media_type": "text/turtle", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE"
+    }, 
+    "RDF_XML": {
+        "label": "RDF XML", 
+        "media_type": "application/rdf+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RDF_XML"
+    }, 
+    "REST": {
+        "label": "Esri REST", 
+        "media_type": "arcgis_rest", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/REST"
+    }, 
+    "RSS": {
+        "label": "RSS feed", 
+        "media_type": "application/rss+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RSS"
+    }, 
+    "RTF": {
+        "label": "RTF", 
+        "media_type": "text/rtf", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/RTF"
+    }, 
+    "SCHEMA_XML": {
+        "label": "XML schema", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SCHEMA_XML"
+    }, 
+    "SDMX": {
+        "label": "SDMX", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SDMX"
+    }, 
+    "SGML": {
+        "label": "SGML", 
+        "media_type": "text/sgml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SGML"
+    }, 
+    "SHP": {
+        "label": "Esri Shape", 
+        "media_type": "application/x-shapefile", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SHP"
+    }, 
+    "SKOS_XML": {
+        "label": "SKOS", 
+        "media_type": "application/rdf+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SKOS_XML"
+    }, 
+    "SPARQLQ": {
+        "label": "SPARQL", 
+        "media_type": "application/sparql-query", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SPARQLQ"
+    }, 
+    "SPARQLQRES": {
+        "label": "SPARQL results", 
+        "media_type": "application/sparql-results+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SPARQLQRES"
+    }, 
+    "SQL": {
+        "label": "SQL", 
+        "media_type": "application/sql", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/SQL"
+    }, 
+    "TAB": {
+        "label": "MapInfo TAB file", 
+        "media_type": "application/x-tab", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TAB"
+    }, 
+    "TAB_RSTR": {
+        "label": "MapInfo TAB raster file", 
+        "media_type": "application/x-tab-raster", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TAB_RSTR"
+    }, 
+    "TAR": {
+        "label": "TAR", 
+        "media_type": "application/x-tar", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TAR"
+    }, 
+    "TAR_GZ": {
+        "label": "TAR GZ", 
+        "media_type": "application/gnutar", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TAR_GZ"
+    }, 
+    "TAR_XZ": {
+        "label": "TAR XZ", 
+        "media_type": "application/x-compressed", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TAR_XZ"
+    }, 
+    "TIFF": {
+        "label": "TIFF", 
+        "media_type": "image/tiff", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TIFF"
+    }, 
+    "TIFF_FX": {
+        "label": "TIFF FX", 
+        "media_type": "image/tiff-fx", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TIFF_FX"
+    }, 
+    "TMX": {
+        "label": "TMX", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TMX"
+    }, 
+    "TSV": {
+        "label": "TSV", 
+        "media_type": "text/tab-separated-values", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TSV"
+    }, 
+    "TXT": {
+        "label": "Plain text", 
+        "media_type": "text/plain", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/TXT"
+    }, 
+    "WARC": {
+        "label": "WARC", 
+        "media_type": "application/warc", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/WARC"
+    }, 
+    "WARC_GZ": {
+        "label": "WARC GZ", 
+        "media_type": "application/gzip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/WARC_GZ"
+    }, 
+    "WFS": {
+        "label": "Web Feature Service", 
+        "uri": "https://daten.berlin.de/schema/dist-format/wfs"
+    }, 
+    "WMS": {
+        "label": "Web Map Service", 
+        "media_type": "application/vnd.ogc.wms_xml", 
+        "uri": "https://daten.berlin.de/schema/dist-format/wms"
+    }, 
+    "WORLD": {
+        "label": "World file", 
+        "media_type": "application/x-worldfile", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/WORLD"
+    }, 
+    "XHTML": {
+        "label": "XHTML", 
+        "media_type": "application/xhtml+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XHTML"
+    }, 
+    "XHTML_SIMPL": {
+        "label": "XHTML simplified", 
+        "media_type": "application/xhtml+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XHTML_SIMPL"
+    }, 
+    "XLIFF": {
+        "label": "XLIFF", 
+        "media_type": "application/xliff+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XLIFF"
+    }, 
+    "XLS": {
+        "label": "Excel XLS", 
+        "media_type": "application/vnd.ms-excel", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XLS"
+    }, 
+    "XLSX": {
+        "label": "Excel XLSX", 
+        "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XLSX"
+    }, 
+    "XML": {
+        "label": "XML", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XML"
+    }, 
+    "XSLFO": {
+        "label": "XSL-FO", 
+        "media_type": "application/xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XSLFO"
+    }, 
+    "XSLT": {
+        "label": "XSLT", 
+        "media_type": "application/xslt+xml", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XSLT"
+    }, 
+    "XYZ": {
+        "label": "XYZ Chemical File", 
+        "media_type": "chemical/x-xyz", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/XYZ"
+    }, 
+    "ZIP": {
+        "label": "ZIP", 
+        "media_type": "application/zip", 
+        "uri": "http://publications.europa.eu/resource/authority/file-type/ZIP"
+    }
+}

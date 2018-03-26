@@ -1,0 +1,72 @@
+{
+    "Deutschland": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/DEU" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/federal" ,
+        "geonames": "http://www.geonames.org/2921044"
+    },
+    "Berlin": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/stateKey/11" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/state" ,
+        "geonames": "http://www.geonames.org/2950157"
+    },
+    "Mitte": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001001" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2870912"
+    },
+    "Friedrichshain-Kreuzberg": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001002" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336295"
+    },
+    "Pankow": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001003" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2855597"
+    },
+    "Charlottenburg-Wilmersdorf": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001004" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336294"
+    },
+    "Spandau": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001005" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2830841"
+    },
+    "Steglitz-Zehlendorf": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001006" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336293"
+    },
+    "Tempelhof-Schöneberg": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001007" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336297"
+    },
+    "Neukölln": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001008" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2864694"
+    },
+    "Treptow-Köpenick": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001009" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336298"
+    },
+    "Marzahn-Hellersdorf": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001010" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/3336296"
+    },
+    "Lichtenberg": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001011" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2878100"
+    },
+    "Reinickendorf": {
+        "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/110010001012" ,
+        "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict" ,
+        "geonames": "http://www.geonames.org/2848755"
+    }
+}
