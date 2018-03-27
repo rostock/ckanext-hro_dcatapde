@@ -1,0 +1,80 @@
+{
+  "CitySDK": {
+    "label": "CitySDK", 
+    "media_type": "application/json", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/JSON"
+  },
+  "CSV": {
+    "label": "CSV", 
+    "media_type": "text/csv", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/CSV"
+  },
+  "ECW": {
+    "label": "ECW", 
+    "media_type": "application/x-ecw+zip", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/ECW"
+  },
+  "GeoJSON": {
+    "label": "GeoJSON", 
+    "media_type": "application/geo+json", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/GEOJSON"
+  },
+  "GeoRSS": {
+    "label": "GeoRSS", 
+    "media_type": "application/rss+xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/RSS"
+  },
+  "GeoTIFF": {
+    "label": "GeoTIFF", 
+    "media_type": "image/tiff", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/TIFF"
+  },
+  "GML": {
+    "label": "GML", 
+    "media_type": "application/gml+xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/GML"
+  },
+  "JSON": {
+    "label": "JSON", 
+    "media_type": "application/json", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/JSON"
+  },
+  "KML": {
+    "label": "KML", 
+    "media_type": "application/vnd.google-earth.kml+xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/KML"
+  },
+  "SHP": {
+    "label": "SHP", 
+    "media_type": "application/x-shapefile+zip", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/SHP"
+  },
+  "WCS": {
+    "label": "WCS", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/WCS"
+  },
+  "WFS": {
+    "label": "WFS", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/WFS"
+  },
+  "WMS": {
+    "label": "WMS", 
+    "media_type": "application/vnd.ogc.wms_xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/WMS"
+  },
+  "WMS-C": {
+    "label": "WMS-C", 
+    "media_type": "application/vnd.ogc.wms_xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/WMSC"
+  },
+  "WMTS": {
+    "label": "WMTS", 
+    "media_type": "application/vnd.ogc.wms_xml", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/WMTS"
+  },
+  "XLSX": {
+    "label": "Excel XLSX", 
+    "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+    "uri": "http://publications.europa.eu/resource/authority/file-type/XLSX"
+  }
+}

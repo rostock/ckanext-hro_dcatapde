@@ -2,58 +2,53 @@
 
 import os
 import json
-import logging
 import pylons
-
-from rdflib import URIRef, BNode, Literal
-from rdflib.namespace import Namespace
-from rdflib.namespace import RDF, RDFS
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
+from rdflib import URIRef, BNode, Literal
+from rdflib.namespace import Namespace, RDF, RDFS, SKOS
 
-log = logging.getLogger(__name__)
 
 # copied from ckanext.dcat.profiles
-DCT = Namespace("http://purl.org/dc/terms/")
-DCAT = Namespace("http://www.w3.org/ns/dcat#")
-ADMS = Namespace("http://www.w3.org/ns/adms#")
-VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
-FOAF = Namespace("http://xmlns.com/foaf/0.1/")
+ADMS = Namespace('http://www.w3.org/ns/adms#')
+DCAT = Namespace('http://www.w3.org/ns/dcat#')
+DCT = Namespace('http://purl.org/dc/terms/')
+FOAF = Namespace('http://xmlns.com/foaf/0.1/')
+GSP = Namespace('http://www.opengis.net/ont/geosparql#')
+LOCN = Namespace('http://www.w3.org/ns/locn#')
+OWL = Namespace('http://www.w3.org/2002/07/owl#')
 SCHEMA = Namespace('http://schema.org/')
 TIME = Namespace('http://www.w3.org/2006/time')
-LOCN = Namespace('http://www.w3.org/ns/locn#')
-GSP = Namespace('http://www.opengis.net/ont/geosparql#')
-OWL = Namespace('http://www.w3.org/2002/07/owl#')
-SPDX = Namespace('http://spdx.org/rdf/terms#')
-SKOS = Namespace('http://www.w3.org/2004/02/skos/core#')
-VOID = Namespace('http://rdfs.org/ns/void#')
+VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
 
-# own namespaces
+# custom namespaces
+DCATDE = Namespace('http://dcat-ap.de/def/dcatde/1_0/')
+DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
-DCATDE = Namespace("http://dcat-ap.de/def/dcatde/1_0/")
-DCATDE_LIC = Namespace("http://dcat-ap.de/def/licenses/")
 
 namespaces = {
-    # copied from ckanext.dcat.profiles
-    'dct': DCT,
-    'dcat': DCAT,
-    'adms': ADMS,
-    'vcard': VCARD,
-    'foaf': FOAF,
-    'schema': SCHEMA,
-    'time': TIME,
-    'skos': SKOS,
-    'locn': LOCN,
-    'gsp': GSP,
-    'owl': OWL,
-    'void': VOID,
-    'mdrlang': MDRLANG ,
-    'mdrtheme': MDRTHEME ,
-    'dcatde': DCATDE ,
-    'dcatde-lic': DCATDE_LIC
+  # copied from ckanext.dcat.profiles
+  'adms': ADMS,
+  'dcat': DCAT,
+  'dct': DCT,
+  'foaf': FOAF,
+  'gsp': GSP,
+  'locn': LOCN,
+  'owl': OWL,
+  'schema': SCHEMA,
+  'skos': SKOS,
+  'time': TIME,
+  'vcard': VCARD,
+
+  # custom namespaces
+  'dcatde': DCATDE,
+  'dcatde-lic': DCATDE_LIC,
+  'mdrlang': MDRLANG,
+  'mdrtheme': MDRTHEME
 }
+
 
 class DCATAPdeHROProfile(RDFProfile):
     '''
@@ -69,17 +64,14 @@ class DCATAPdeHROProfile(RDFProfile):
         with open(os.path.join(dir_path, "mappings", "categories.json")) as json_data:
             self.category_mapping = json.load(json_data)
 
+        with open(os.path.join(dir_path, "mappings", "coverages.json")) as json_data:
+            self.coverage_mapping = json.load(json_data)
+
+        with open(os.path.join(dir_path, "mappings", "formats.json")) as json_data:
+            self.format_mapping = json.load(json_data)
+
         with open(os.path.join(dir_path, "mappings", "licenses.json")) as json_data:
             self.license_mapping = json.load(json_data)
-
-        with open(os.path.join(dir_path, "mappings", "geo_coverage.json")) as json_data:
-            self.geo_coverage = json.load(json_data)
-
-        with open(os.path.join(dir_path, "mappings", "org2legalBasis.json")) as json_data:
-            self.legalBasis = json.load(json_data)
-
-        with open(os.path.join(dir_path, "mappings", "format_mapping.json")) as json_data:
-            self.format_mapping = json.load(json_data)
 
         super(DCATAPdeHROProfile, self).__init__(graph, compatibility_mode)
 
@@ -100,7 +92,7 @@ class DCATAPdeHROProfile(RDFProfile):
             g.bind(prefix, namespace)
 
         # Nr. 40 - Contributor
-        contributorId = pylons.config.get('ckanext.dcatde.contributorid')
+        contributorId = pylons.config.get('ckanext.hro_dcatapde.contributorid')
         if contributorId:
             g.add( (dataset_ref, DCATDE.contributorID, Literal(contributorId) ))
 
@@ -158,8 +150,8 @@ class DCATAPdeHROProfile(RDFProfile):
         # passt leider nur bedingt auf Berlin (nur federal, state, administrativeDistrict)
 
         geographical_coverage = self._get_dataset_value(dataset_dict, 'geographical_coverage')
-        if geographical_coverage in self.geo_coverage:
-            coverage_object = self.geo_coverage[geographical_coverage]
+        if geographical_coverage in self.coverage_mapping:
+            coverage_object = self.coverage_mapping[geographical_coverage]
             if 'geonames' in coverage_object:
                 g.add( (dataset_ref, DCT.spatial, URIRef(coverage_object['geonames'])) )
             if 'politicalGeocodingURI' in coverage_object:
@@ -168,14 +160,6 @@ class DCATAPdeHROProfile(RDFProfile):
                 g.add( (dataset_ref, DCATDE.politicalGeocodingLevelURI, URIRef(coverage_object['politicalGeocodingLevelURI'])) )
 
 
-
-        # Nr. 75 - dcatde:legalbasisText
-
-        legalbasisText = self.legalBasis['default']
-        org = dataset_dict.get('organization', {})
-        if org and org['name'] in self.legalBasis['mapping']:
-            legalbasisText = self.legalBasis['mapping'][org['name']]
-        g.add( (dataset_ref, DCATDE.legalbasisText, Literal(legalbasisText)) )
 
         # Enhance Distributions
         ## License
@@ -187,7 +171,6 @@ class DCATAPdeHROProfile(RDFProfile):
         ## Attribution Text
         if 'attribution_text' in dataset_dict:
             dist_additons['attribution_text'] = dataset_dict.get('attribution_text')
-            log.debug("attribution_text: {}".format(dist_additons['attribution_text']))
 
         for resource_dict in dataset_dict.get('resources', []):
             for distribution in g.objects(dataset_ref, DCAT.distribution):
@@ -208,8 +191,6 @@ class DCATAPdeHROProfile(RDFProfile):
             if format_string in self.format_mapping:
                 format_uri = self.format_mapping[format_string]['uri']
                 g.add( (distribution_ref, DCT['format'], URIRef(format_uri)) )
-            else:
-                log.warning("No mapping found for format string '{}'".format(format_string))
 
         # Nr. 93 - dcatde:licenseAttributionByText
         if 'attribution_text' in dist_additons:

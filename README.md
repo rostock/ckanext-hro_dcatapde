@@ -1,8 +1,10 @@
-# Extension for *CKAN*: HRO DCAT-AP.de
+# Extension for *CKAN*: HRO-DCAT-AP.de
 
-A custom implementation of [DCAT-AP.de](http://dcat-ap.de) for OpenData.HRO, the open data portal of the municipality of Rostockk – view it in production: https://www.opendata-hro.de
+A custom implementation of [DCAT-AP.de](http://dcat-ap.de) for OpenData.HRO, the open data portal of the municipality of Rostock – view it in production: https://www.opendata-hro.de
 
-*HRO DCAT-AP.de* draws heavily on [*ckanext-dcatde*](https://github.com/GovDataOfficial/ckanext-dcatde) but keeps the core CKAN schema, i.e. no database conversions necessary. Many thanks to the contributors to [*ckanext-dcatde_berlin*](https://github.com/berlinonline/ckanext-dcatde_berlin) where much of the code is derived from.
+*HRO-DCAT-AP.de* defines a DCAT-AP profile that needs to be layered right on top of `euro_dcat_ap`, as defined in [*ckanext-dcat*](https://github.com/ckan/ckanext-dcat). It builds on both [*ckanext-dcatde*](https://github.com/GovDataOfficial/ckanext-dcatde) and [*ckanext-dcatde_berlin*](https://github.com/berlinonline/ckanext-dcatde_berlin) and works like the latter, i.e. no database conversion necessary and the CKAN core remains untouched.
+
+Many thanks to the contributors to both *ckanext-dcatde* and *ckanext-dcatde_berlin* where much of the code is derived from.
 
 ## Requirements
 
@@ -26,7 +28,7 @@ To install ckanext-hro_dcatapde for production:
 
         ckanext.dcat.enable_content_negotiation = True
         ckanext.dcat.rdf.profiles = euro_dcat_ap dcatap_de
-        ckanext.dcatde.contributorid = [your contributor id]
+        ckanext.hro_dcatapde.contributorid = [your contributor id]
 
 1.  Restart *CKAN*. For example, if you have deployed *CKAN* with *Apache HTTP Server* on *Ubuntu*:
 
@@ -34,9 +36,9 @@ To install ckanext-hro_dcatapde for production:
 
 ## Development installation
 
-To install ckanext-hro_dcatapde for development, activate your *CKAN* virtualenv and do:
+To install ckanext-hro_dcatapde for development, activate your *CKAN* virtualenv  and do:
 
-    git clone https://github.com/kvlahrosch/ckanext-hro_dcatapde.git
+    git clone https://github.com/rostock/ckanext-hro_dcatapde.git
     cd ckanext-hro_dcatapde
     python setup.py develop
     pip install -r dev-requirements.txt
