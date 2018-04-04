@@ -148,6 +148,9 @@ class DCATAPdeHROProfile(RDFProfile):
       if maintainer_email:
         g.add((maintainer_details, FOAF.mbox, Literal(maintainer_email)))
 
+    # dct:accessRights
+    g.add((dataset_ref, DCT.accessRights, Literal('public')))
+
     # dct:conformsTo
     g.add((dataset_ref, DCT.conformsTo, URIRef(DCATDE)))
 
@@ -200,9 +203,18 @@ class DCATAPdeHROProfile(RDFProfile):
 
 
   def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons):
+    # adms::status
+    g.add((distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed')))
+    
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
       g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
+
+    # dcatde::plannedAvailability
+    g.add((distribution_ref, DCATDE.plannedAvailability, URIRef('http://dcat-ap.de/def/plannedAvailability/stable')))
+
+    # dct:conformsTo
+    g.add((distribution_ref, DCT.conformsTo, URIRef(DCATDE)))
 
     # dct:description
     if resource_dict.get('description'):
@@ -216,6 +228,10 @@ class DCATAPdeHROProfile(RDFProfile):
         format_uri = self.format_mapping[format_string]['uri']
         g.add((distribution_ref, DCT['format'], URIRef(format_uri)))
 
+    # dct:issued
+    if resource_dict.get('created'):
+      g.add((distribution_ref, DCT.issued, Literal(resource_dict.get('created'), datatype = XSD.dateTime)))
+
     # dct:language
     language = pylons.config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
@@ -226,11 +242,17 @@ class DCATAPdeHROProfile(RDFProfile):
     # dct:license
     if 'license_id' in dist_additons:
       g.add((distribution_ref, DCT.license, DCATDE_LIC[dist_additons['license_id']]))
+      g.add((distribution_ref, DCT.rights, DCATDE_LIC[dist_additons['license_id']]))
+
+    # dct:modified
+    if resource_dict.get('last_modified'):
+      g.add((distribution_ref, DCT.modified, Literal(resource_dict.get('last_modified'), datatype = XSD.dateTime)))
 
     # spdx:checksum
     if resource_dict.get('hash'):
       for checksum_ref in g.objects(distribution_ref, SPDX.checksum):
         for checksum_value in g.objects(checksum_ref, SPDX.checksumValue):
+          g.add((checksum_ref, RDF.type, SPDX.Checksum))
           if 'sha256' in resource_dict['hash'] and 'sha256' in self.algorithm_mapping:
             algorithm_uri = self.algorithm_mapping['sha256']
             g.remove((checksum_ref, SPDX.checksumValue, Literal(resource_dict['hash'], datatype = XSD.hexBinary)))
@@ -244,6 +266,6 @@ class DCATAPdeHROProfile(RDFProfile):
     try:
         default_datetime = datetime.datetime(1, 1, 1, 0, 0, 0)
         _date = parse_date(value, default=default_datetime)
-        self.g.add((subject, predicate, _type(_date.isoformat(), datatype=XSD.dateTime)))
+        self.g.add((subject, predicate, _type(_date.isoformat(), datatype = XSD.dateTime)))
     except ValueError:
         self.g.add((subject, predicate, _type(value)))
