@@ -22,6 +22,7 @@ GSP = Namespace('http://www.opengis.net/ont/geosparql#')
 LOCN = Namespace('http://www.w3.org/ns/locn#')
 OWL = Namespace('http://www.w3.org/2002/07/owl#')
 SCHEMA = Namespace('http://schema.org/')
+SPDX = Namespace('http://spdx.org/rdf/terms#')
 TIME = Namespace('http://www.w3.org/2006/time')
 VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
 
@@ -43,6 +44,7 @@ namespaces = {
   'owl': OWL,
   'schema': SCHEMA,
   'skos': SKOS,
+  'spdx': SPDX,
   'time': TIME,
   'vcard': VCARD,
 
@@ -61,6 +63,8 @@ class DCATAPdeHROProfile(RDFProfile):
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
 
+    with open(os.path.join(dir_path, 'mappings', 'algorithms.json')) as json_data:
+      self.algorithm_mapping = json.load(json_data)
     with open(os.path.join(dir_path, 'mappings', 'categories.json')) as json_data:
       self.category_mapping = json.load(json_data)
     with open(os.path.join(dir_path, 'mappings', 'formats.json')) as json_data:
@@ -119,8 +123,11 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcatde:geocodingText
     # dcatde:politicalGeocodingLevelURI
     # dcatde:politicalGeocodingURI
+    # dct:spatial
     geocoding_text = self._get_dataset_value(dataset_dict, 'spatial_text')
     if geocoding_text:
+      for spatial_ref in g.objects(dataset_ref, DCT.spatial):
+        g.remove((spatial_ref, SKOS.prefLabel, Literal(geocoding_text)))
       g.add((dataset_ref, DCATDE.geocodingText, Literal(geocoding_text)))
       if geocoding_text in self.geocoding_mapping:
         geocoding_object = self.geocoding_mapping[geocoding_text]
@@ -174,6 +181,12 @@ class DCATAPdeHROProfile(RDFProfile):
         self._add_date_triple(temporal_extent, SCHEMA.endDate, end_date)
       g.add((dataset_ref, DCT.temporal, temporal_extent))
 
+    # attribution for resources (distributions) enhancement
+    terms_of_use = json.loads(self._get_dataset_value(dataset_dict, 'terms_of_use'))
+    if terms_of_use:
+      if 'attribution_text' in terms_of_use:
+        dist_additons['attribution_text'] = terms_of_use['attribution_text']
+
     # license maping for resources (distributions) enhancement
     license_id = self._get_dataset_value(dataset_dict, 'license_id')
     if license_id in self.license_mapping:
@@ -187,6 +200,22 @@ class DCATAPdeHROProfile(RDFProfile):
 
 
   def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons):
+    # dcatde:licenseAttributionByText
+    if 'attribution_text' in dist_additons:
+      g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
+
+    # dct:description
+    if resource_dict.get('description'):
+      g.add((distribution_ref, DCT.description, Literal(resource_dict.get('description'))))
+
+    # dct:format
+    for format_string in g.objects(distribution_ref, DCT['format']):
+      g.remove((distribution_ref, DCT['format'], Literal(format_string)))
+      format_string = format_string.toPython()
+      if format_string in self.format_mapping:
+        format_uri = self.format_mapping[format_string]['uri']
+        g.add((distribution_ref, DCT['format'], URIRef(format_uri)))
+
     # dct:language
     language = pylons.config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
@@ -198,17 +227,15 @@ class DCATAPdeHROProfile(RDFProfile):
     if 'license_id' in dist_additons:
       g.add((distribution_ref, DCT.license, DCATDE_LIC[dist_additons['license_id']]))
 
-    # Nr. 78 - Format
-    for format_string in g.objects(distribution_ref, DCT['format']):
-      g.remove((distribution_ref, DCT['format'], Literal(format_string)))
-      format_string = format_string.toPython()
-      if format_string in self.format_mapping:
-        format_uri = self.format_mapping[format_string]['uri']
-        g.add((distribution_ref, DCT['format'], URIRef(format_uri)))
-
-    # Nr. 93 - dcatde:licenseAttributionByText
-    if 'attribution_text' in dist_additons:
-      g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
+    # spdx:checksum
+    if resource_dict.get('hash'):
+      for checksum_ref in g.objects(distribution_ref, SPDX.checksum):
+        for checksum_value in g.objects(checksum_ref, SPDX.checksumValue):
+          if 'sha256' in resource_dict['hash'] and 'sha256' in self.algorithm_mapping:
+            algorithm_uri = self.algorithm_mapping['sha256']
+            g.remove((checksum_ref, SPDX.checksumValue, Literal(resource_dict['hash'], datatype = XSD.hexBinary)))
+            g.add((checksum_ref, SPDX.checksumValue, Literal(resource_dict['hash'][7:], datatype = XSD.hexBinary)))
+            g.add((checksum_ref, SPDX.algorithm, URIRef(algorithm_uri)))
 
 
   def _add_date_triple(self, subject, predicate, value, _type = Literal):
