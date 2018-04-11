@@ -32,6 +32,8 @@ DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
 
+GEOJSON_IMT = 'https://www.iana.org/assignments/media-types/application/vnd.geo+json'
+
 
 namespaces = {
   # copied from ckanext.dcat.profiles
@@ -124,6 +126,15 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcatde:politicalGeocodingLevelURI
     # dcatde:politicalGeocodingURI
     # dct:spatial
+    geocoding = self._get_dataset_value(dataset_dict, 'spatial')
+    if geocoding:
+      for spatial_ref in g.objects(dataset_ref, DCT.spatial):
+        g.remove((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON_IMT)))
+        if 'multipolygon' in geocoding:
+          geocoding = geocoding.replace('multipolygon', 'MultiPolygon')
+        elif 'polygon' in geocoding:
+          geocoding = geocoding.replace('polygon', 'Polygon')
+        g.add((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON_IMT)))
     geocoding_text = self._get_dataset_value(dataset_dict, 'spatial_text')
     if geocoding_text:
       for spatial_ref in g.objects(dataset_ref, DCT.spatial):
