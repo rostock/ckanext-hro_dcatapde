@@ -199,7 +199,7 @@ class DCATAPdeHROProfile(RDFProfile):
     terms_of_use = json.loads(self._get_dataset_value(dataset_dict, 'terms_of_use'))
     if terms_of_use:
       if 'attribution_text' in terms_of_use:
-        dist_additons['attribution_text'] = terms_of_use['attribution_text']
+        dist_additons['attribution_text'] = terms_of_use['attribution_text'].encode('utf-8')
 
     # license maping for resources (distributions) enhancement
     license_id = self._get_dataset_value(dataset_dict, 'license_id')
