@@ -122,7 +122,7 @@ class DCATAPdeHROProfile(RDFProfile):
     if contributor_id:
       g.add((dataset_ref, DCATDE.contributorID, Literal(contributor_id)))
 
-    # dcatde:geocodingText
+    # dcatde:geocodingDescription
     # dcatde:politicalGeocodingLevelURI
     # dcatde:politicalGeocodingURI
     # dct:spatial
@@ -139,7 +139,7 @@ class DCATAPdeHROProfile(RDFProfile):
     if geocoding_text:
       for spatial_ref in g.objects(dataset_ref, DCT.spatial):
         g.remove((spatial_ref, SKOS.prefLabel, Literal(geocoding_text)))
-      g.add((dataset_ref, DCATDE.geocodingText, Literal(geocoding_text)))
+      g.add((dataset_ref, DCATDE.geocodingDescription, Literal(geocoding_text)))
       if geocoding_text in self.geocoding_mapping:
         geocoding_object = self.geocoding_mapping[geocoding_text]
         if 'politicalGeocodingLevelURI' in geocoding_object:
