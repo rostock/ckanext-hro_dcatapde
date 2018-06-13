@@ -120,7 +120,7 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcatde:contributorID
     contributor_id = pylons.config.get('ckanext.hro_dcatapde.contributorid')
     if contributor_id:
-      g.add((dataset_ref, DCATDE.contributorID, Literal(contributor_id)))
+      g.add((dataset_ref, DCATDE.contributorID, URIRef('http://dcat-ap.de/def/contributors/' + contributor_id)))
 
     # dcatde:geocodingDescription
     # dcatde:politicalGeocodingLevelURI
