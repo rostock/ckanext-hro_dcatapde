@@ -214,14 +214,18 @@ class DCATAPdeHROProfile(RDFProfile):
 
 
   def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons):
-    # adms::status
+    # adms:status
     g.add((distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed')))
+    
+    # dcat:downloadURL
+    if resource_dict.get('resource_type') and resource_dict.get('resource_type') == 'file':
+      g.add((distribution_ref, DCAT.downloadURL, URIRef(resource_dict.get('url'))))
     
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
       g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
 
-    # dcatde::plannedAvailability
+    # dcatde:plannedAvailability
     g.add((distribution_ref, DCATDE.plannedAvailability, URIRef('http://dcat-ap.de/def/plannedAvailability/stable')))
 
     # dct:conformsTo
