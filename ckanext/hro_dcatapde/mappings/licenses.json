@@ -3,7 +3,7 @@
     "dcatde-id": "cc-zero",
     "Name": "Creative Commons CCZero (CC0)",
     "Lizenzcode": "cc-zero",
-    "Lizenztext": "http://www.opendefinition.org/licenses/cc-zero",
+    "Lizenztext": "https://creativecommons.org/publicdomain/zero/1.0/",
     "OGDLizenzcode": "cc-zero",
     "Lizenztyp": "offen"
   },
@@ -11,7 +11,7 @@
     "dcatde-id": "cc-by/4.0",
     "Name": "Creative Commons Namensnennung  4.0 (CCBY)",
     "Lizenzcode": "cc-by/4.0",
-    "Lizenztext": "http://creativecommons.org/licenses/by/4.0/",
+    "Lizenztext": "https://creativecommons.org/licenses/by/4.0/",
     "OGDLizenzcode": "cc-by",
     "Lizenztyp": "offen"
   },
@@ -19,7 +19,7 @@
     "dcatde-id": "odbl",
     "Name": "Open Data Commons Open Database License (ODbL)",
     "Lizenzcode": "odbl",
-    "Lizenztext": "http://www.opendefinition.org/licenses/odc-odbl",
+    "Lizenztext": "https://opendatacommons.org/licenses/odbl/index.html",
     "OGDLizenzcode": "odc-odbl",
     "Lizenztyp": "offen"
   }

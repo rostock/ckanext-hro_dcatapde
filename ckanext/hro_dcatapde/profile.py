@@ -32,7 +32,8 @@ DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
 
-GEOJSON_IMT = 'https://www.iana.org/assignments/media-types/application/vnd.geo+json'
+IANA = 'https://www.iana.org/assignments/media-types/'
+GEOJSON_IMT = IANA + 'application/vnd.geo+json'
 
 
 namespaces = {
@@ -220,6 +221,18 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcat:downloadURL
     if resource_dict.get('resource_type') and resource_dict.get('resource_type') == 'file':
       g.add((distribution_ref, DCAT.downloadURL, URIRef(resource_dict.get('url'))))
+
+    # dcat:mediaType
+    for format_string in g.objects(distribution_ref, DCAT['mediaType']):
+      g.remove((distribution_ref, DCAT['mediaType'], Literal(format_string)))
+      if 'rss+xml' in format_string:
+        format_string = 'application/xml'
+      elif 'shapefile' in format_string or 'x-ecw' in format_string:
+        format_string = 'application/octet-stream+zip'
+      else:
+        format_string = format_string.toPython()
+      format_uri = IANA + format_string
+      g.add((distribution_ref, DCAT['mediaType'], URIRef(format_uri)))
     
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
