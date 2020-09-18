@@ -1,29 +1,29 @@
 {
   "Landkreis Rostock": {
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
   },
   "Mecklenburg-Vorpommern": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/stateKey/13",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/state"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/stateKey/13",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/state"
   },
   "Mecklenburg-Vorpommern und Umgebung": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/stateKey/13",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/state"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/stateKey/13",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/state"
   },
   "Rostock": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
   },
   "Rostock City": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
   },
   "Rostocker Heide": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
   },
   "Rostock und Umgebung": {
-    "politicalGeocodingURI": "http://dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
-    "politicalGeocodingLevelURI": "http://dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
+    "politicalGeocodingURI": "https://www.dcat-ap.de/def/politicalGeocoding/regionalKey/130030000000",
+    "politicalGeocodingLevelURI": "https://www.dcat-ap.de/def/politicalGeocoding/Level/administrativeDistrict"
   }
 }
