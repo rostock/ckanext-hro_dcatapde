@@ -27,8 +27,8 @@ TIME = Namespace('http://www.w3.org/2006/time')
 VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
 
 # custom namespaces
-DCATDE = Namespace('https://www.dcat-ap.de/def/dcatde/1.1/')
-DCATDE_LIC = Namespace('https://www.dcat-ap.de/def/licenses/')
+DCATDE = Namespace('http://dcat-ap.de/def/dcatde/1.1/')
+DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
 
@@ -121,7 +121,7 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcatde:contributorID
     contributor_id = pylons.config.get('ckanext.hro_dcatapde.contributorid')
     if contributor_id:
-      g.add((dataset_ref, DCATDE.contributorID, URIRef('https://www.dcat-ap.de/def/contributors/' + contributor_id)))
+      g.add((dataset_ref, DCATDE.contributorID, URIRef('http://dcat-ap.de/def/contributors/' + contributor_id)))
 
     # dcatde:geocodingDescription
     # dcatde:politicalGeocodingLevelURI
@@ -239,7 +239,7 @@ class DCATAPdeHROProfile(RDFProfile):
       g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
 
     # dcatde:plannedAvailability
-    g.add((distribution_ref, DCATDE.plannedAvailability, URIRef('https://www.dcat-ap.de/def/plannedAvailability/stable')))
+    g.add((distribution_ref, DCATDE.plannedAvailability, URIRef('http://dcat-ap.de/def/plannedAvailability/stable')))
 
     # dct:conformsTo
     g.add((distribution_ref, DCT.conformsTo, URIRef(DCATDE)))
