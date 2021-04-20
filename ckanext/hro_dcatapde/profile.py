@@ -27,7 +27,7 @@ TIME = Namespace('http://www.w3.org/2006/time')
 VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
 
 # custom namespaces
-DCATDE = Namespace('http://dcat-ap.de/def/dcatde/1.1/')
+DCATDE = Namespace('http://dcat-ap.de/def/dcatde/')
 DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
