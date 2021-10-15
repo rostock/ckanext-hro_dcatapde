@@ -1,1 +1,1 @@
-ckanext-dcat==0.0.7
+ckanext-dcat
