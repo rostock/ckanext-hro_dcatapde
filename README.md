@@ -13,13 +13,11 @@ Many thanks to the contributors to both *ckanext-dcatde* and *ckanext-dcatde_ber
 
 ## Installation
 
-To install *HRO-DCAT-AP.de* for production:
-
 1.  Activate your *CKAN* virtual *Python* environment, for example:
 
         . /usr/lib/ckan/default/bin/activate
 
-1.  Install the ckanext-hro_dcatapde *Python* package into your virtual *Python* environment:
+1.  Install *HRO-DCAT-AP.de* into your virtual *Python* environment:
 
         pip install -r https://github.com/rostock/ckanext-hro_dcatapde/raw/master/requirements.txt
         pip install -e 'git+https://github.com/rostock/ckanext-hro_dcatapde.git#egg=ckanext-hro_dcatapde'
@@ -30,6 +28,21 @@ To install *HRO-DCAT-AP.de* for production:
         ckanext.dcat.enable_content_negotiation = True
         ckanext.dcat.rdf.profiles = euro_dcat_ap dcatap_de
         ckanext.hro_dcatapde.contributorid = [your contributor id]
+
+1.  Restart *CKAN*. For example, if you have deployed *CKAN* with *Apache HTTP Server* on *Ubuntu*:
+
+        sudo service apache2 reload
+
+## Upgrade
+
+1.  Activate your *CKAN* virtual *Python* environment, for example:
+
+        . /usr/lib/ckan/default/bin/activate
+
+1.  Upgrade *HRO-DCAT-AP.de* within your virtual *Python* environment:
+
+        pip install --upgrade -r https://github.com/rostock/ckanext-hro_dcatapde/raw/master/requirements.txt
+        pip install --upgrade -e 'git+https://github.com/rostock/ckanext-hro_dcatapde.git#egg=ckanext-hro_dcatapde'
 
 1.  Restart *CKAN*. For example, if you have deployed *CKAN* with *Apache HTTP Server* on *Ubuntu*:
 

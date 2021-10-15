@@ -3,10 +3,10 @@
 import datetime
 import json
 import os
-import pylons
 
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
+from ckantoolkit import config
 from dateutil.parser import parse as parse_date
 from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDF, SKOS, XSD
@@ -86,7 +86,7 @@ class DCATAPdeHROProfile(RDFProfile):
     g = self.g
     
     # dct:language
-    language = pylons.config.get('ckan.locale_default', 'en')
+    language = config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
       g.remove((catalog_ref, DCT.language, Literal(language)))
@@ -101,7 +101,7 @@ class DCATAPdeHROProfile(RDFProfile):
     g = self.g
     dist_additons = {}
 
-    for prefix, namespace in namespaces.iteritems():
+    for prefix, namespace in namespaces.items():
       g.bind(prefix, namespace)
     
     # dcat:contactPoint
@@ -119,7 +119,7 @@ class DCATAPdeHROProfile(RDFProfile):
           g.add((dataset_ref, DCAT.theme, URIRef(MDRTHEME + mdrtheme_group)))
           
     # dcatde:contributorID
-    contributor_id = pylons.config.get('ckanext.hro_dcatapde.contributorid')
+    contributor_id = config.get('ckanext.hro_dcatapde.contributorid')
     if contributor_id:
       g.add((dataset_ref, DCATDE.contributorID, URIRef('http://dcat-ap.de/def/contributors/' + contributor_id)))
 
@@ -179,7 +179,7 @@ class DCATAPdeHROProfile(RDFProfile):
         g.add((creator_details, FOAF.mbox, Literal(creator_email)))
     
     # dct:language
-    language = pylons.config.get('ckan.locale_default', 'en')
+    language = config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
       g.add((dataset_ref, DCT.language, Literal(getattr(MDRLANG, mdrlang_language))))
@@ -210,7 +210,7 @@ class DCATAPdeHROProfile(RDFProfile):
     # resources (distributions) enhancement
     for resource_dict in dataset_dict.get('resources', []):
       for distribution in g.objects(dataset_ref, DCAT.distribution):
-        if unicode(distribution) == resource_uri(resource_dict):
+        if str(distribution) == resource_uri(resource_dict):
           self.enhance_resource(g, distribution, resource_dict, dist_additons)
 
 
@@ -261,7 +261,7 @@ class DCATAPdeHROProfile(RDFProfile):
       g.add((distribution_ref, DCT.issued, Literal(resource_dict.get('created'), datatype = XSD.dateTime)))
 
     # dct:language
-    language = pylons.config.get('ckan.locale_default', 'en')
+    language = config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
       g.remove((distribution_ref, DCT.language, Literal(language)))
