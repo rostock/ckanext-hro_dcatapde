@@ -1,1 +1,2 @@
-ckanext-dcat
+ckan>=2.9.0
+ckanext-dcat>=1.1.0
