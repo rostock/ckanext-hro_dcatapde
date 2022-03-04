@@ -21,19 +21,20 @@ FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 GSP = Namespace('http://www.opengis.net/ont/geosparql#')
 LOCN = Namespace('http://www.w3.org/ns/locn#')
 OWL = Namespace('http://www.w3.org/2002/07/owl#')
-SCHEMA = Namespace('http://schema.org/')
 SPDX = Namespace('http://spdx.org/rdf/terms#')
 TIME = Namespace('http://www.w3.org/2006/time')
 VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
 
 # custom namespaces
+DCATAP = Namespace('http://data.europa.eu/r5r/')
 DCATDE = Namespace('http://dcat-ap.de/def/dcatde/')
 DCATDE_LIC = Namespace('http://dcat-ap.de/def/licenses/')
 MDRLANG = Namespace('http://publications.europa.eu/resource/authority/language/')
 MDRTHEME = Namespace('http://publications.europa.eu/resource/authority/data-theme/')
 
 IANA = 'https://www.iana.org/assignments/media-types/'
-GEOJSON_IMT = IANA + 'application/vnd.geo+json'
+GEOJSON = IANA + 'application/vnd.geo+json'
+ZIP = IANA + 'application/zip'
 
 
 namespaces = {
@@ -45,13 +46,13 @@ namespaces = {
   'gsp': GSP,
   'locn': LOCN,
   'owl': OWL,
-  'schema': SCHEMA,
   'skos': SKOS,
   'spdx': SPDX,
   'time': TIME,
   'vcard': VCARD,
 
   # custom namespaces
+  'dcatap': DCATAP,
   'dcatde': DCATDE,
   'dcatde-lic': DCATDE_LIC,
   'mdrlang': MDRLANG,
@@ -130,12 +131,12 @@ class DCATAPdeHROProfile(RDFProfile):
     geocoding = self._get_dataset_value(dataset_dict, 'spatial')
     if geocoding:
       for spatial_ref in g.objects(dataset_ref, DCT.spatial):
-        g.remove((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON_IMT)))
+        g.remove((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON)))
         if 'multipolygon' in geocoding:
           geocoding = geocoding.replace('multipolygon', 'MultiPolygon')
         elif 'polygon' in geocoding:
           geocoding = geocoding.replace('polygon', 'Polygon')
-        g.add((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON_IMT)))
+        g.add((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON)))
     geocoding_text = self._get_dataset_value(dataset_dict, 'spatial_text')
     if geocoding_text:
       for spatial_ref in g.objects(dataset_ref, DCT.spatial):
@@ -191,9 +192,9 @@ class DCATAPdeHROProfile(RDFProfile):
       temporal_extent = BNode()
       g.add((temporal_extent, RDF.type, DCT.PeriodOfTime))
       if start_date:
-        self._add_date_triple(temporal_extent, SCHEMA.startDate, start_date)
+        self._add_date_triple(temporal_extent, DCAT.startDate, start_date)
       if end_date:
-        self._add_date_triple(temporal_extent, SCHEMA.endDate, end_date)
+        self._add_date_triple(temporal_extent, DCAT.endDate, end_date)
       g.add((dataset_ref, DCT.temporal, temporal_extent))
 
     # attribution for resources (distributions) enhancement
@@ -225,21 +226,23 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcat:mediaType
     for format_string in g.objects(distribution_ref, DCAT['mediaType']):
       g.remove((distribution_ref, DCAT['mediaType'], Literal(format_string)))
+      compressed = False
       if 'rss+xml' in format_string:
         format_string = 'application/xml'
-      elif 'shapefile' in format_string or 'x-ecw' in format_string:
-        format_string = 'application/octet-stream+zip'
       else:
         format_string = format_string.toPython()
       format_uri = IANA + format_string
       g.add((distribution_ref, DCAT['mediaType'], URIRef(format_uri)))
+      if 'zip' in format_string:
+        # dcat:compressFormat
+        g.add((distribution_ref, DCAT['compressFormat'], URIRef(ZIP)))
     
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
       g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
 
-    # dcatde:plannedAvailability
-    g.add((distribution_ref, DCATDE.plannedAvailability, URIRef('http://dcat-ap.de/def/plannedAvailability/stable')))
+    # dcatap:availability
+    g.add((distribution_ref, DCATAP.availability, URIRef('http://publications.europa.eu/resource/authority/planned-availability/STABLE')))
 
     # dct:conformsTo
     g.add((distribution_ref, DCT.conformsTo, URIRef(DCATDE)))
