@@ -229,13 +229,14 @@ class DCATAPdeHROProfile(RDFProfile):
       compressed = False
       if 'rss+xml' in format_string:
         format_string = 'application/xml'
+      elif '+zip' in format_string:
+        format_string = format_string.replace('+zip', '')
+        # dcat:compressFormat
+        g.add((distribution_ref, DCAT['compressFormat'], URIRef(ZIP)))
       else:
         format_string = format_string.toPython()
       format_uri = IANA + format_string
       g.add((distribution_ref, DCAT['mediaType'], URIRef(format_uri)))
-      if 'zip' in format_string:
-        # dcat:compressFormat
-        g.add((distribution_ref, DCAT['compressFormat'], URIRef(ZIP)))
     
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
