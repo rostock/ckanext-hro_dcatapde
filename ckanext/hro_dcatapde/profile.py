@@ -162,7 +162,8 @@ class DCATAPdeHROProfile(RDFProfile):
         g.add((maintainer_details, FOAF.mbox, Literal(maintainer_email)))
 
     # dct:accessRights
-    g.add((dataset_ref, DCT.accessRights, Literal('public')))
+    # hard coded URI since an open data portal is publishing open and thus public data anyway
+    g.add((dataset_ref, DCT.accessRights, URIRef('http://publications.europa.eu/resource/authority/access-right/PUBLIC')))
 
     # dct:conformsTo
     g.add((dataset_ref, DCT.conformsTo, URIRef(DCATDE)))
