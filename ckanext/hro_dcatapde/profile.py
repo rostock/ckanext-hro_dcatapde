@@ -75,6 +75,8 @@ class DCATAPdeHROProfile(RDFProfile):
       self.format_mapping = json.load(json_data)
     with open(os.path.join(dir_path, 'mappings', 'geocodings.json')) as json_data:
       self.geocoding_mapping = json.load(json_data)
+    with open(os.path.join(dir_path, 'mappings', 'hvd-categories.json')) as json_data:
+      self.hvd_category_mapping = json.load(json_data)
     with open(os.path.join(dir_path, 'mappings', 'languages.json')) as json_data:
       self.language_mapping = json.load(json_data)
     with open(os.path.join(dir_path, 'mappings', 'licenses.json')) as json_data:
@@ -85,13 +87,13 @@ class DCATAPdeHROProfile(RDFProfile):
 
   def graph_from_catalog(self, catalog_dict, catalog_ref):
     g = self.g
-    
+
     # dct:language
     language = config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
       g.remove((catalog_ref, DCT.language, Literal(language)))
-      g.add((catalog_ref, DCT.language, Literal(getattr(MDRLANG, mdrlang_language))))
+      g.add((catalog_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
 
 
   def parse_dataset(self, dataset_dict, dataset_ref):
@@ -102,15 +104,30 @@ class DCATAPdeHROProfile(RDFProfile):
     g = self.g
     dist_additons = {}
 
+    # dcat:landingPage
+    g.add((dataset_ref, DCAT.landingPage, URIRef(dataset_ref)))
+
+    # dcatap:applicableLegislation
+    g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
+
+    # dcatap:hvdCategory
+    hvd_category = None
+    groups = self._get_dataset_value(dataset_dict, 'groups')
+    for group in groups:
+      hvd_category = self.hvd_category_mapping[group['name']]
+      if hvd_category:
+        g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
+        break # ignore further groups and thus set only one HVD category
+
     for prefix, namespace in namespaces.items():
       g.bind(prefix, namespace)
-    
+
     # dcat:contactPoint
     for contactPoint_ref in g.objects(dataset_ref, DCAT.contactPoint):
       for email in g.objects(contactPoint_ref, VCARD.hasEmail):
         g.remove((contactPoint_ref, VCARD.hasEmail, Literal(email)))
         g.add((contactPoint_ref, VCARD.hasEmail, URIRef('mailto:' + email)))
-    
+
     # dcat:theme
     groups = self._get_dataset_value(dataset_dict, 'groups')
     for group in groups:
@@ -118,7 +135,7 @@ class DCATAPdeHROProfile(RDFProfile):
       if mdrtheme_groups:
         for mdrtheme_group in mdrtheme_groups:
           g.add((dataset_ref, DCAT.theme, URIRef(MDRTHEME + mdrtheme_group)))
-          
+
     # dcatde:contributorID
     contributor_id = config.get('ckanext.hro_dcatapde.contributorid')
     if contributor_id:
@@ -179,12 +196,12 @@ class DCATAPdeHROProfile(RDFProfile):
         g.add((creator_details, FOAF.name, Literal(creator)))
       if creator_email:
         g.add((creator_details, FOAF.mbox, Literal(creator_email)))
-    
+
     # dct:language
     language = config.get('ckan.locale_default', 'en')
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
-      g.add((dataset_ref, DCT.language, Literal(getattr(MDRLANG, mdrlang_language))))
+      g.add((dataset_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
 
     # dct:temporal
     start_date = self._get_dataset_value(dataset_dict, 'temporal_coverage_from')
@@ -213,13 +230,21 @@ class DCATAPdeHROProfile(RDFProfile):
     for resource_dict in dataset_dict.get('resources', []):
       for distribution in g.objects(dataset_ref, DCAT.distribution):
         if str(distribution) == resource_uri(resource_dict):
-          self.enhance_resource(g, distribution, resource_dict, dist_additons)
+          self.enhance_resource(g, distribution, resource_dict, dist_additons, hvd_category)
 
 
-  def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons):
+  def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons, hvd_category):
+
+    # dcatap:applicableLegislation
+    g.add((distribution_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
+
+    # dcatap:hvdCategory
+    if hvd_category:
+      g.add((distribution_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
+
     # adms:status
     g.add((distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed')))
-    
+
     # dcat:downloadURL
     if resource_dict.get('resource_type') and resource_dict.get('resource_type') == 'file':
       g.add((distribution_ref, DCAT.downloadURL, URIRef(resource_dict.get('url'))))
@@ -238,7 +263,7 @@ class DCATAPdeHROProfile(RDFProfile):
         format_string = format_string.toPython()
       format_uri = IANA + format_string
       g.add((distribution_ref, DCAT['mediaType'], URIRef(format_uri)))
-    
+
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
       g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
@@ -270,7 +295,7 @@ class DCATAPdeHROProfile(RDFProfile):
     if language in self.language_mapping:
       mdrlang_language = self.language_mapping[language]
       g.remove((distribution_ref, DCT.language, Literal(language)))
-      g.add((distribution_ref, DCT.language, Literal(getattr(MDRLANG, mdrlang_language))))
+      g.add((distribution_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
 
     # dct:license
     if 'license_id' in dist_additons:

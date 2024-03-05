@@ -1,0 +1,16 @@
+{
+  "bevoelkerung": "http://data.europa.eu/bna/c_e1da4e07",
+  "bildung_wissenschaft": "http://data.europa.eu/bna/c_e1da4e07",
+  "geo": "http://data.europa.eu/bna/c_ac64a52d",
+  "gesetze_justiz": "http://data.europa.eu/bna/c_ac64a52d",
+  "gesundheit": "http://data.europa.eu/bna/c_e1da4e07",
+  "infrastruktur_bauen_wohnen": "http://data.europa.eu/bna/c_ac64a52d",
+  "kultur_freizeit_sport_tourismus": "http://data.europa.eu/bna/c_e1da4e07",
+  "politik_wahlen": "http://data.europa.eu/bna/c_e1da4e07",
+  "soziales": "http://data.europa.eu/bna/c_e1da4e07",
+  "transport_verkehr": "http://data.europa.eu/bna/c_b79e35eb",
+  "umwelt_klima": "http://data.europa.eu/bna/c_dd313021",
+  "verbraucher": "http://data.europa.eu/bna/c_e1da4e07",
+  "verwaltung": "http://data.europa.eu/bna/c_ac64a52d",
+  "wirtschaft_arbeit": "http://data.europa.eu/bna/c_e1da4e07"
+}
