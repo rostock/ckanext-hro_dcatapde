@@ -108,11 +108,14 @@ class DCATAPdeHROProfile(RDFProfile):
     g.add((dataset_ref, DCAT.landingPage, URIRef(dataset_ref)))
 
     # dcatap:hvdCategory and dcatap:applicableLegislation
+    hvd_category = None
     extras = self._get_dataset_value(dataset_dict, 'extras')
-    hvd_category = next((d['value'] for d in extras if d['key'] == 'hvd_category'), None)
-    if hvd_category is not None:
-      g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
-      g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
+    extras_hvd_category = next((d['value'] for d in extras if d['key'] == 'hvd_category'), None)
+    if extras_hvd_category is not None:
+      hvd_category = self.hvd_category_mapping.get(extras_hvd_category, None)
+      if hvd_category is not None:
+        g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
+        g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
 
     for prefix, namespace in namespaces.items():
       g.bind(prefix, namespace)
