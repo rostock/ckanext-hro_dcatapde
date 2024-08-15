@@ -107,17 +107,12 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcat:landingPage
     g.add((dataset_ref, DCAT.landingPage, URIRef(dataset_ref)))
 
-    # dcatap:applicableLegislation
-    g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
-
-    # dcatap:hvdCategory
-    hvd_category = None
-    groups = self._get_dataset_value(dataset_dict, 'groups')
-    for group in groups:
-      hvd_category = self.hvd_category_mapping[group['name']]
-      if hvd_category:
-        g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
-        break # ignore further groups and thus set only one HVD category
+    # dcatap:hvdCategory and dcatap:applicableLegislation
+    extras = self._get_dataset_value(dataset_dict, 'extras')
+    hvd_category = next((d['value'] for d in extras if d['key'] == 'hvd_category'), None)
+    if hvd_category is not None:
+      g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
+      g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
 
     for prefix, namespace in namespaces.items():
       g.bind(prefix, namespace)
@@ -235,12 +230,10 @@ class DCATAPdeHROProfile(RDFProfile):
 
   def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons, hvd_category):
 
-    # dcatap:applicableLegislation
-    g.add((distribution_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
-
-    # dcatap:hvdCategory
-    if hvd_category:
+    # dcatap:hvdCategory and dcatap:applicableLegislation
+    if hvd_category is not None:
       g.add((distribution_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
+      g.add((distribution_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
 
     # adms:status
     g.add((distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed')))
