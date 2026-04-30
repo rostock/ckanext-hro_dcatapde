@@ -26,7 +26,7 @@ Many thanks to the contributors of these projects for their foundational work.
 
 1.  Enable *HRO-DCAT-AP.de* in your *CKAN* config file (by default the config file is located at `/etc/ckan/default/ckan.ini`):
 
-        ckan.plugins = [...] hro_dcatapde [...]
+        ckan.plugins = hro_dcatapde
 
 1.  Add the following lines to your *CKAN* config file:
 
@@ -45,8 +45,9 @@ Many thanks to the contributors of these projects for their foundational work.
 
 1.  Upgrade *HRO-DCAT-AP.de* within your virtual *Python* environment:
 
-        pip install --upgrade -r https://github.com/rostock/ckanext-hro_dcatapde/raw/master/requirements.txt
-        pip install --upgrade -e 'git+https://github.com/rostock/ckanext-hro_dcatapde.git#egg=ckanext-hro_dcatapde'
+        cd /usr/lib/ckan/default/src/ckanext-hro_dcatapde
+        git pull
+        pip install -e .
 
 1.  Restart *CKAN*. For example, if you have deployed *CKAN* with *Apache HTTP Server* on *Ubuntu*:
 
