@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 import json
 import os
@@ -7,7 +5,6 @@ import os
 from ckanext.dcat.profiles import RDFProfile
 from ckanext.dcat.utils import resource_uri
 from ckantoolkit import config
-from dateutil.parser import parse as parse_date
 from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import Namespace, RDF, SKOS, XSD
 
@@ -60,40 +57,44 @@ namespaces = {
 }
 
 
+# import JSON mapping files
+PATH = os.path.abspath(__file__)
+DIR_PATH = os.path.dirname(PATH)
+
+def load_mapping(filename):
+  with open(os.path.join(DIR_PATH, 'mappings', filename)) as f:
+    return json.load(f)
+
+ALGORITHM_MAPPING = load_mapping('algorithms.json')
+CATEGORY_MAPPING = load_mapping('categories.json')
+FORMAT_MAPPING = load_mapping('formats.json')
+GEOCODING_MAPPING = load_mapping('geocodings.json')
+HVD_CATEGORY_MAPPING = load_mapping('hvd-categories.json')
+LANGUAGE_MAPPING = load_mapping('languages.json')
+LICENSE_MAPPING = load_mapping('licenses.json')
+
+
+# language
+language = config.get('ckan.locale_default', 'en')
+MDRLANG_LANGUAGE = LANGUAGE_MAPPING.get(language)
+
 
 class DCATAPdeHROProfile(RDFProfile):
 
   def __init__(self, graph, compatibility_mode=False):
-    path = os.path.abspath(__file__)
-    dir_path = os.path.dirname(path)
+    super().__init__(graph, compatibility_mode)
 
-    with open(os.path.join(dir_path, 'mappings', 'algorithms.json')) as json_data:
-      self.algorithm_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'categories.json')) as json_data:
-      self.category_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'formats.json')) as json_data:
-      self.format_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'geocodings.json')) as json_data:
-      self.geocoding_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'hvd-categories.json')) as json_data:
-      self.hvd_category_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'languages.json')) as json_data:
-      self.language_mapping = json.load(json_data)
-    with open(os.path.join(dir_path, 'mappings', 'licenses.json')) as json_data:
-      self.license_mapping = json.load(json_data)
-
-    super(DCATAPdeHROProfile, self).__init__(graph, compatibility_mode)
+    for prefix, namespace in namespaces.items():
+      self.g.bind(prefix, namespace)
 
 
   def graph_from_catalog(self, catalog_dict, catalog_ref):
     g = self.g
 
     # dct:language
-    language = config.get('ckan.locale_default', 'en')
-    if language in self.language_mapping:
-      mdrlang_language = self.language_mapping[language]
+    if MDRLANG_LANGUAGE:
       g.remove((catalog_ref, DCT.language, Literal(language)))
-      g.add((catalog_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
+      g.add((catalog_ref, DCT.language, URIRef(MDRLANG + MDRLANG_LANGUAGE)))
 
 
   def parse_dataset(self, dataset_dict, dataset_ref):
@@ -103,22 +104,22 @@ class DCATAPdeHROProfile(RDFProfile):
   def graph_from_dataset(self, dataset_dict, dataset_ref):
     g = self.g
     dist_additons = {}
+    extras_dict = {
+      e['key']: e['value']
+      for e in dataset_dict.get('extras', [])
+    }
 
     # dcat:landingPage
     g.add((dataset_ref, DCAT.landingPage, URIRef(dataset_ref)))
 
     # dcatap:hvdCategory and dcatap:applicableLegislation
     hvd_category = None
-    extras = self._get_dataset_value(dataset_dict, 'extras')
-    extras_hvd_category = next((d['value'] for d in extras if d['key'] == 'hvd_category'), None)
+    extras_hvd_category = extras_dict.get('hvd_category')
     if extras_hvd_category is not None:
-      hvd_category = self.hvd_category_mapping.get(extras_hvd_category, None)
+      hvd_category = HVD_CATEGORY_MAPPING.get(extras_hvd_category, None)
       if hvd_category is not None:
         g.add((dataset_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
         g.add((dataset_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
-
-    for prefix, namespace in namespaces.items():
-      g.bind(prefix, namespace)
 
     # dcat:contactPoint
     for contactPoint_ref in g.objects(dataset_ref, DCAT.contactPoint):
@@ -129,7 +130,7 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcat:theme
     groups = self._get_dataset_value(dataset_dict, 'groups')
     for group in groups:
-      mdrtheme_groups = self.category_mapping[group['name']]
+      mdrtheme_groups = CATEGORY_MAPPING[group['name']]
       if mdrtheme_groups:
         for mdrtheme_group in mdrtheme_groups:
           g.add((dataset_ref, DCAT.theme, URIRef(MDRTHEME + mdrtheme_group)))
@@ -143,22 +144,23 @@ class DCATAPdeHROProfile(RDFProfile):
     # dcatde:politicalGeocodingLevelURI
     # dcatde:politicalGeocodingURI
     # dct:spatial
-    geocoding = self._get_dataset_value(dataset_dict, 'spatial')
+    spatial_refs = list(g.objects(dataset_ref, DCT.spatial))
+    geocoding = extras_dict.get('spatial')
     if geocoding:
-      for spatial_ref in g.objects(dataset_ref, DCT.spatial):
+      for spatial_ref in spatial_refs:
         g.remove((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON)))
         if 'multipolygon' in geocoding:
           geocoding = geocoding.replace('multipolygon', 'MultiPolygon')
         elif 'polygon' in geocoding:
           geocoding = geocoding.replace('polygon', 'Polygon')
         g.add((spatial_ref, LOCN.geometry, Literal(geocoding, datatype = GEOJSON)))
-    geocoding_text = self._get_dataset_value(dataset_dict, 'spatial_text')
+    geocoding_text = extras_dict.get('spatial_text')
     if geocoding_text:
-      for spatial_ref in g.objects(dataset_ref, DCT.spatial):
+      for spatial_ref in spatial_refs:
         g.remove((spatial_ref, SKOS.prefLabel, Literal(geocoding_text)))
       g.add((dataset_ref, DCATDE.geocodingDescription, Literal(geocoding_text)))
-      if geocoding_text in self.geocoding_mapping:
-        geocoding_object = self.geocoding_mapping[geocoding_text]
+      if geocoding_text in GEOCODING_MAPPING:
+        geocoding_object = GEOCODING_MAPPING[geocoding_text]
         if 'politicalGeocodingLevelURI' in geocoding_object:
           g.add((dataset_ref, DCATDE.politicalGeocodingLevelURI, URIRef(geocoding_object['politicalGeocodingLevelURI'])))
         if 'politicalGeocodingURI' in geocoding_object:
@@ -196,14 +198,12 @@ class DCATAPdeHROProfile(RDFProfile):
         g.add((creator_details, FOAF.mbox, Literal(creator_email)))
 
     # dct:language
-    language = config.get('ckan.locale_default', 'en')
-    if language in self.language_mapping:
-      mdrlang_language = self.language_mapping[language]
-      g.add((dataset_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
+    if MDRLANG_LANGUAGE:
+      g.add((dataset_ref, DCT.language, URIRef(MDRLANG + MDRLANG_LANGUAGE)))
 
     # dct:temporal
-    start_date = self._get_dataset_value(dataset_dict, 'temporal_coverage_from')
-    end_date = self._get_dataset_value(dataset_dict, 'temporal_coverage_to')
+    start_date = extras_dict.get('temporal_coverage_from')
+    end_date = extras_dict.get('temporal_coverage_to')
     if start_date or end_date:
       temporal_extent = BNode()
       g.add((temporal_extent, RDF.type, DCT.PeriodOfTime))
@@ -214,112 +214,136 @@ class DCATAPdeHROProfile(RDFProfile):
       g.add((dataset_ref, DCT.temporal, temporal_extent))
 
     # attribution for resources (distributions) enhancement
-    terms_of_use = json.loads(self._get_dataset_value(dataset_dict, 'terms_of_use'))
+    terms_of_use_raw = extras_dict.get('terms_of_use')
+    if terms_of_use_raw:
+      terms_of_use = json.loads(terms_of_use_raw)
+    else:
+      terms_of_use = {}
     if terms_of_use:
       if 'attribution_text' in terms_of_use:
-        dist_additons['attribution_text'] = terms_of_use['attribution_text'].encode('utf-8')
+        dist_additons['attribution_text'] = terms_of_use['attribution_text']
 
     # license maping for resources (distributions) enhancement
     license_id = self._get_dataset_value(dataset_dict, 'license_id')
-    if license_id in self.license_mapping:
-      dist_additons['license_id'] = self.license_mapping[license_id]['dcatde-id']
+    if license_id in LICENSE_MAPPING:
+      dist_additons['license_id'] = LICENSE_MAPPING[license_id]['dcatde-id']
 
     # resources (distributions) enhancement
+    distribution_refs = list(g.objects(dataset_ref, DCAT.distribution))
     for resource_dict in dataset_dict.get('resources', []):
-      for distribution in g.objects(dataset_ref, DCAT.distribution):
-        if str(distribution) == resource_uri(resource_dict):
-          self.enhance_resource(g, distribution, resource_dict, dist_additons, hvd_category)
+      resource_uri_val = URIRef(resource_uri(resource_dict))
+      distribution_ref = next(
+        (d for d in distribution_refs if d == resource_uri_val),
+        None
+      )
+      self.enhance_resource(g, distribution_ref, resource_dict, dist_additons, hvd_category)
 
 
   def enhance_resource(self, g, distribution_ref, resource_dict, dist_additons, hvd_category):
+    to_add = []
+    to_remove = []
+    
+    def add(s, p, o):
+      to_add.append((s, p, o))
 
-    # dcatap:hvdCategory and dcatap:applicableLegislation
+    def remove(s, p, o):
+      to_remove.append((s, p, o))
+
+    # dcatap:hvdCategory
+    # dcatap:applicableLegislation
     if hvd_category is not None:
-      g.add((distribution_ref, DCATAP.hvdCategory, URIRef(hvd_category)))
-      g.add((distribution_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj')))
+      add(distribution_ref, DCATAP.hvdCategory, URIRef(hvd_category))
+      add(distribution_ref, DCATAP.applicableLegislation, URIRef('http://data.europa.eu/eli/reg_impl/2023/138/oj'))
 
     # adms:status
-    g.add((distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed')))
+    add(distribution_ref, ADMS.status, URIRef('http://purl.org/adms/status/Completed'))
 
     # dcat:downloadURL
-    if resource_dict.get('resource_type') and resource_dict.get('resource_type') == 'file':
-      g.add((distribution_ref, DCAT.downloadURL, URIRef(resource_dict.get('url'))))
+    if resource_dict.get('resource_type') == 'file':
+      add(distribution_ref, DCAT.downloadURL, URIRef(resource_dict.get('url')))
 
     # dcat:mediaType
-    for format_string in g.objects(distribution_ref, DCAT['mediaType']):
-      g.remove((distribution_ref, DCAT['mediaType'], Literal(format_string)))
-      compressed = False
-      if 'rss+xml' in format_string:
-        format_string = 'application/xml'
-      elif '+zip' in format_string:
-        format_string = format_string.replace('+zip', '')
+    media_types = list(g.objects(distribution_ref, DCAT.mediaType))
+    for media_type in media_types:
+      remove(distribution_ref, DCAT.mediaType, media_type)
+      media_type_string = str(media_type)
+      if 'rss+xml' in media_type_string:
+        media_type_string = 'application/xml'
+      elif '+zip' in media_type_string:
+        media_type_string = media_type_string.replace('+zip', '')
         # dcat:compressFormat
-        g.add((distribution_ref, DCAT['compressFormat'], URIRef(ZIP)))
-      else:
-        format_string = format_string.toPython()
-      format_uri = IANA + format_string
-      g.add((distribution_ref, DCAT['mediaType'], URIRef(format_uri)))
+        add(distribution_ref, DCAT.compressFormat, URIRef(ZIP))
+      add(distribution_ref, DCAT.mediaType, URIRef(IANA + media_type_string))
 
     # dcatde:licenseAttributionByText
     if 'attribution_text' in dist_additons:
-      g.add((distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text'])))
+      add(distribution_ref, DCATDE.licenseAttributionByText, Literal(dist_additons['attribution_text']))
 
     # dcatap:availability
-    g.add((distribution_ref, DCATAP.availability, URIRef('http://publications.europa.eu/resource/authority/planned-availability/STABLE')))
+    add(distribution_ref, DCATAP.availability, URIRef('http://publications.europa.eu/resource/authority/planned-availability/STABLE'))
 
     # dct:conformsTo
-    g.add((distribution_ref, DCT.conformsTo, URIRef(DCATDE)))
+    add(distribution_ref, DCT.conformsTo, URIRef(DCATDE))
 
     # dct:description
     if resource_dict.get('description'):
-      g.add((distribution_ref, DCT.description, Literal(resource_dict.get('description'))))
+      add(distribution_ref, DCT.description, Literal(resource_dict.get('description')))
 
     # dct:format
     for format_string in g.objects(distribution_ref, DCT['format']):
-      g.remove((distribution_ref, DCT['format'], Literal(format_string)))
+      remove(distribution_ref, DCT['format'], Literal(format_string))
       format_string = format_string.toPython()
-      if format_string in self.format_mapping:
-        format_uri = self.format_mapping[format_string]['uri']
-        g.add((distribution_ref, DCT['format'], URIRef(format_uri)))
+      if format_string in FORMAT_MAPPING:
+        format_uri = FORMAT_MAPPING[format_string]['uri']
+        add(distribution_ref, DCT['format'], URIRef(format_uri))
 
     # dct:issued
     if resource_dict.get('created'):
-      g.add((distribution_ref, DCT.issued, Literal(resource_dict.get('created'), datatype = XSD.dateTime)))
+      add(distribution_ref, DCT.issued, Literal(resource_dict.get('created'), datatype=XSD.dateTime))
 
     # dct:language
-    language = config.get('ckan.locale_default', 'en')
-    if language in self.language_mapping:
-      mdrlang_language = self.language_mapping[language]
-      g.remove((distribution_ref, DCT.language, Literal(language)))
-      g.add((distribution_ref, DCT.language, URIRef(MDRLANG + mdrlang_language)))
+    if MDRLANG_LANGUAGE:
+      remove(distribution_ref, DCT.language, Literal(language))
+      add(distribution_ref, DCT.language, URIRef(MDRLANG + MDRLANG_LANGUAGE))
 
     # dct:license
     if 'license_id' in dist_additons:
-      g.add((distribution_ref, DCT.license, DCATDE_LIC[dist_additons['license_id']]))
-      g.add((distribution_ref, DCT.rights, DCATDE_LIC[dist_additons['license_id']]))
+      license = DCATDE_LIC[dist_additons['license_id']]
+      add(distribution_ref, DCT.license, license)
+      add(distribution_ref, DCT.rights, license)
 
     # dct:modified
     if resource_dict.get('last_modified'):
-      g.add((distribution_ref, DCT.modified, Literal(resource_dict.get('last_modified'), datatype = XSD.dateTime)))
+      add(distribution_ref, DCT.modified, Literal(resource_dict.get('last_modified'), datatype=XSD.dateTime))
 
     # spdx:checksum
     if resource_dict.get('hash'):
-      for checksum_ref in g.objects(distribution_ref, SPDX.checksum):
-        for checksum_value in g.objects(checksum_ref, SPDX.checksumValue):
-          g.add((checksum_ref, RDF.type, SPDX.Checksum))
-          if 'sha256' in resource_dict['hash'] and 'sha256' in self.algorithm_mapping:
-            algorithm_uri = self.algorithm_mapping['sha256']
-            g.remove((checksum_ref, SPDX.checksumValue, Literal(resource_dict['hash'], datatype = XSD.hexBinary)))
-            g.add((checksum_ref, SPDX.checksumValue, Literal(resource_dict['hash'][7:], datatype = XSD.hexBinary)))
-            g.add((checksum_ref, SPDX.algorithm, URIRef(algorithm_uri)))
+      checksum_refs = list(g.objects(distribution_ref, SPDX.checksum))
+      for checksum_ref in checksum_refs:
+        add(checksum_ref, RDF.type, SPDX.Checksum)
+        if 'sha256' in resource_dict['hash'] and 'sha256' in ALGORITHM_MAPPING:
+          algorithm_uri = ALGORITHM_MAPPING['sha256']
+          checksum_values = list(g.objects(checksum_ref, SPDX.checksumValue))
+          for checksum_value in checksum_values:
+            remove(checksum_ref, SPDX.checksumValue, checksum_value)
+          raw_hash = resource_dict['hash']
+          if ':' in raw_hash:
+            raw_hash = raw_hash.split(':', 1)[1]
+          add(checksum_ref, SPDX.checksumValue, Literal(raw_hash, datatype=XSD.hexBinary))
+          add(checksum_ref, SPDX.algorithm, URIRef(algorithm_uri))
+
+    for t in to_remove:
+      g.remove(t)
+
+    for t in to_add:
+      g.add(t)
 
 
   def _add_date_triple(self, subject, predicate, value, _type = Literal):
     if not value:
-        return
+      return
     try:
-        default_datetime = datetime.datetime(1, 1, 1, 0, 0, 0)
-        _date = parse_date(value, default=default_datetime)
-        self.g.add((subject, predicate, _type(_date.isoformat(), datatype = XSD.dateTime)))
+      _date = datetime.datetime.fromisoformat(value)
+      self.g.add((subject, predicate, _type(_date.isoformat(), datatype = XSD.dateTime)))
     except ValueError:
-        self.g.add((subject, predicate, _type(value)))
+      self.g.add((subject, predicate, _type(value)))
